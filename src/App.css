@@ -1,0 +1,140 @@
+@font-face {
+  font-family: 'LPMQ Isep Misbah';
+  src: url('/fonts/LPMQ Isep Misbah.ttf') format('truetype');
+  font-display: swap;
+}
+
+:root {
+  --font-arab: 'LPMQ Isep Misbah', 'Amiri Quran', serif;
+}
+
+.wrap { max-width: 900px; margin: 0 auto; padding: 16px; font-family: system-ui, sans-serif; text-align: left; }
+h1 { text-align: center; margin: 12px 0; }
+.search { width: 100%; padding: 12px; margin: 8px 0 16px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; box-sizing: border-box; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.card { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #e2e2e2; border-radius: 12px; background: transparent; color: inherit; cursor: pointer; text-align: left; font: inherit; }
+.card:hover { border-color: #0f766e; }
+.num { width: 36px; height: 36px; display: grid; place-items: center; background: #0f766e; color: #fff; border-radius: 50%; font-size: 14px; flex-shrink: 0; }
+.info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.info small { color: #666; }
+.ar { font-size: 22px; }
+.err { color: #b91c1c; }
+.back { padding: 8px 14px; border: 1px solid #ccc; border-radius: 8px; background: transparent; color: inherit; cursor: pointer; font: inherit; }
+.head { text-align: center; }
+.head p { color: #666; margin-top: 0; }
+.bismillah { text-align: center; font-family: var(--font-arab); font-size: 2.2rem; margin: 16px 0; }
+.ayat-list { display: flex; flex-direction: column; gap: 4px; }
+.ayat { padding: 16px 0; border-bottom: 1px solid #e5e5e5; direction: ltr; content-visibility: auto; contain-intrinsic-size: 150px; }
+.ayat-no { display: inline-grid; place-items: center; min-width: 28px; height: 28px; padding: 0 6px; border-radius: 14px; background: #0f766e; color: #fff; font-size: 13px; }
+.arab { font-family: var(--font-arab); font-size: 2rem; line-height: 2.3; margin: 10px 0; text-align: right; }
+@media (max-width: 600px) {
+  .arab { font-size: 1.7rem; line-height: 2.3; }
+}
+.arab .kata { display: inline-block; transition: color 120ms ease; }
+.arab .kata-aktif { color: #e0a93b; }
+@media (prefers-color-scheme: dark) {
+  .arab .kata-aktif { color: #f0c45a; }
+}
+.ayat-end { display: inline-flex; align-items: center; justify-content: center; font-family: system-ui, sans-serif; font-size: 0.85rem; margin-right: 8px; width: 1.8em; height: 1.8em; border: 1.5px solid currentColor; border-radius: 50%; opacity: 0.7; vertical-align: middle; }
+.arti { color: #444; line-height: 1.6; margin: 0; text-align: left; }
+.ayat-end { display: inline-grid; place-items: center; width: 2em; height: 2em; margin-right: 0.5em; border: 2px solid currentColor; border-radius: 50%; font-size: 0.55rem; vertical-align: middle; opacity: 0.7; font-family: system-ui, sans-serif; }
+.ayat-end-no { font-size: 0.9em; }
+.debug-overlay { position: fixed; bottom: 10px; right: 10px; background: rgba(0,0,0,0.85); color: #4ade80; padding: 10px 14px; border-radius: 8px; font-family: monospace; font-size: 12px; z-index: 9999; line-height: 1.5; }
+.debug-overlay span { color: #a78bfa; }
+@media (prefers-color-scheme: dark) { .arti, .info small, .head p { color: #aaa; } .ayat { border-color: #333; } .card { border-color: #333; } }
+
+/* Audio Player */
+.audio-player { margin: 16px 0; padding: 16px; border: 1px solid #e2e2e2; border-radius: 12px; background: #f9f9f9; }
+.audio-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.audio-label { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #555; }
+.audio-label select { padding: 8px 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; background: #fff; min-width: 200px; }
+.audio-actions { display: flex; align-items: center; gap: 8px; }
+.audio-play-btn { padding: 8px 20px; border: none; border-radius: 8px; background: #0f766e; color: #fff; font-size: 14px; font-weight: 500; cursor: pointer; min-width: 100px; text-align: center; transition: background 150ms ease; }
+.audio-play-btn:hover { background: #0d5d57; }
+.audio-play-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.audio-err-box { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+.audio-err-box .err { margin: 0; flex: 1; }
+.audio-err-box small { color: #888; }
+.audio-status { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 13px; }
+.audio-time { color: #666; }
+.audio-active-verse { font-weight: 500; color: #0f766e; }
+@media (prefers-color-scheme: dark) {
+  .audio-player { background: #1a1a1a; border-color: #333; }
+  .audio-time { color: #999; }
+  .audio-label select { background: #111; color: #eee; border-color: #444; }
+  .audio-active-verse { color: #14b8a6; }
+  .audio-err-box small { color: #666; }
+}
+
+/* Highlight ayat aktif (Quran.com style: bg sedikit lebih terang + border-left aksen) */
+.ayat.ayat-aktif { background: #f8fafc; border-left: 4px solid #0f766e; margin: 0 -16px; padding: 16px; border-radius: 8px; }
+@media (prefers-color-scheme: dark) {
+  .ayat.ayat-aktif { background: #2a2e37; border-left-color: #14b8a6; }
+}
+
+/* Pengendali per ayat */
+.kontrol-per-ayat { margin: 8px 0 16px; padding: 12px; border: 1px solid #e2e2e2; border-radius: 12px; background: #f9f9f9; }
+@media (prefers-color-scheme: dark) {
+  .kontrol-per-ayat { background: #1a1a1a; border-color: #333; }
+}
+.ulang-baris { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 14px; color: #555; }
+@media (prefers-color-scheme: dark) {
+  .ulang-baris { color: #999; }
+}
+.ulang-label { font-weight: 500; }
+.ulang-kontrol { display: flex; align-items: center; gap: 6px; font-size: 14px; color: #555; }
+@media (prefers-color-scheme: dark) {
+  .ulang-kontrol { color: #999; }
+}
+.ulang-kontrol select { padding: 6px 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; background: #fff; color: #000; }
+@media (prefers-color-scheme: dark) {
+  .ulang-kontrol select { background: #111; color: #eee; border-color: #444; }
+}
+.ulang-counter-kecil { font-size: 13px; font-weight: 600; color: #0f766e; }
+@media (prefers-color-scheme: dark) {
+  .ulang-counter-kecil { color: #14b8a6; }
+}
+.ulang-stop { margin-top: 8px; }
+.audio-play-btn-kecil { min-width: 80px; padding: 6px 12px; font-size: 13px; }
+
+/* Baris header ayat: nomor + tombol putar per ayat */
+.ayat-header-row { display: flex; align-items: center; justify-content: flex-start; gap: 10px; }
+.ayat-putar { display: inline-flex; align-items: center; gap: 6px; }
+
+/* Tombol putar per ayat */
+.ayat-play {
+  width: 28px; height: 28px;
+  display: inline-grid; place-items: center;
+  border: 1px solid #0f766e; border-radius: 50%;
+  background: transparent; color: #0f766e;
+  font-size: 14px; line-height: 1; cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+  padding: 0;
+}
+.ayat-play:hover { background: #0f766e; color: #fff; }
+.ayat-play.ayat-play-aktif { background: #0f766e; color: #fff; }
+.ayat-play[aria-disabled="true"] { opacity: 0.4; cursor: not-allowed; }
+.ayat-play[aria-disabled="true"]:hover { background: transparent; color: #0f766e; }
+@media (prefers-color-scheme: dark) {
+  .ayat-play { border-color: #14b8a6; color: #14b8a6; }
+  .ayat-play:hover { background: #14b8a6; color: #0b1021; }
+  .ayat-play.ayat-play-aktif { background: #14b8a6; color: #0b1021; }
+}
+
+/* Skeleton loader daftar ayat */
+.skeleton-list { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+.skeleton-ayat { padding: 16px 0; border-bottom: 1px solid #e5e5e5; display: flex; flex-direction: column; gap: 12px; }
+.skeleton-header { width: 32px; height: 32px; border-radius: 50%; background: #e2e8f0; animation: pulse 1.5s infinite; }
+.skeleton-arab { width: 80%; height: 36px; border-radius: 6px; background: #e2e8f0; align-self: flex-end; animation: pulse 1.5s infinite; }
+.skeleton-arti { width: 60%; height: 18px; border-radius: 4px; background: #e2e8f0; animation: pulse 1.5s infinite; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.3; }
+}
+
+@media (prefers-color-scheme: dark) {
+  .skeleton-ayat { border-color: #333; }
+  .skeleton-header, .skeleton-arab, .skeleton-arti { background: #262626; }
+}
+
